@@ -24,3 +24,21 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    compileSdkVersion = 28
+    minSdkVersion = 17
+    targetSdkVersion = 28
+    supportLibVersion = '1.1.0'
+    recyclerViewVersion = '1.2.0-alpha03'
+    constraintLayoutVersion = '1.1.3'
+
+    retrofitVersion = '2.8.1'
+    okhttpLoggingInterceptorVersion = '4.6.0'
+    coroutines = '1.3.6'
+
+    runnerVersion = '1.3.0-rc01'
+    rulesVersion = '1.0.1'
+    junitVersion = '4.13'
+    espressoVersion = '3.3.0-rc01'
+}
