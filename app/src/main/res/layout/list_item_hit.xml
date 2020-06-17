@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="viewModel"
+            type="com.example.jetpack_paging3.viewmodel.ListingViewModel"/>
+        <variable
+            name="dataHit"
+            type="com.example.jetpack_paging3.model.Hit"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:paddingTop="@dimen/row_item_margin_vertical"
+        android:paddingHorizontal="@dimen/row_item_margin_horizontal"
+        android:onClick="@{clickListener}">
+
+        <ImageView
+            android:id="@+id/photoIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@tools:sample/avatars"
+            app:imageFromUrl="@{dataHit.largeImageURL}"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/gradient_background">
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/name_text_size"
+                tools:text="android-architecture"
+                android:text="@{dataHit.user}"/>
+
+            <TextView
+                android:id="@+id/tagsTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:maxLines="1"
+                android:textSize="@dimen/tag_text_size"
+                tools:text="#flowers"
+                android:text="@{dataHit.tags}"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

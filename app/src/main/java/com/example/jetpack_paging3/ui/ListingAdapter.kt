@@ -1,20 +1,25 @@
 package com.example.jetpack_paging3.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_paging3.R
-import com.example.jetpack_paging3.model.Repo
+import com.example.jetpack_paging3.model.Hit
 
 /**
  * Adapter for the list of public github repositories.
  */
-class RepoListingAdapter(private val items: ArrayList<Repo>, private val context: Context
+class ListingAdapter(private var items: ArrayList<Hit> = ArrayList()
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-       return RepoListingViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_repo, parent, false))
+        return ListingViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.list_item_hit, parent, false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -22,10 +27,12 @@ class RepoListingAdapter(private val items: ArrayList<Repo>, private val context
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val repoItem = items[holder.adapterPosition]
-        val childHolder = holder as? RepoListingViewHolder
-        if (childHolder != null) {
-            holder.bind(repoItem)
-        }
+        val repo = items[holder.adapterPosition]
+        (holder as ListingViewHolder).bind(repo)
+    }
+
+    fun supplyData(hits: ArrayList<Hit>) {
+        items = hits
+        notifyDataSetChanged()
     }
 }
