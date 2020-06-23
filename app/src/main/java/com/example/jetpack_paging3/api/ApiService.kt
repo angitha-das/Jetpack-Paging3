@@ -11,10 +11,10 @@ interface ApiService {
      * Get list of images from pixabay.
      */
     @GET("api/")
-    fun getImages(
+    suspend fun  getImages(
         @Query("key") key: String,
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int,
         @Query("image_type") imageType: String
-    ): Call<PixabayResponse>
+    ): PixabayResponse
 }

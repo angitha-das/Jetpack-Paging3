@@ -2,54 +2,33 @@ package com.example.jetpack_paging3.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.jetpack_paging3.data.PixabayRepository
 import com.example.jetpack_paging3.model.Hit
 import com.example.jetpack_paging3.model.Resource
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 
 /**
  * ViewModel for the RepoListingFragment screen.
  * The ViewModel works with the [PixabayRepository] to get the public repo list data.
  */
 class ListingViewModel internal constructor(
-    private val pixabayRepository: PixabayRepository
+    private val repository: PixabayRepository
 ) : ViewModel() {
-    private val job = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
-    private var hitList: MutableList<Hit>
-    private val repoLiveData = MutableLiveData<Resource<List<Hit>>>()
-    init {
-        getAllPublicRepositories()
-        hitList = pixabayRepository.getAllRepos().toMutableList()
-    }
 
-    fun getAllPublicRepositories(): MutableLiveData<Resource<List<Hit>>> {
-        if(repoLiveData.value == null){
-            repoLiveData.value = Resource.loading()
+    private var currentImagesResult: Flow<PagingData<Hit>>? = null
 
-            uiScope.launch {
-                val d = async(Dispatchers.IO) {
-                    pixabayRepository.getAllPublicRepos()
-                }
-                val result = d.await()
-
-                if (result.isSuccess()) {
-                    hitList.clear()
-                    hitList = ArrayList(pixabayRepository.getAllRepos())
-
-                    if (hitList.isEmpty()) {
-                        repoLiveData.value = Resource.empty()
-                    } else {
-                        repoLiveData.value = Resource.success(hitList)
-                    }
-
-                } else {
-                    repoLiveData.value = Resource.error(result.error?.localizedMessage ?: "Unknown error")
-                }
-
-            }
+    fun getImages(): Flow<PagingData<Hit>> {
+        val lastResult = currentImagesResult
+        if (lastResult != null) {
+            return lastResult
         }
-
-        return repoLiveData
+        val newResult: Flow<PagingData<Hit>> = repository.getImagesResultStream()
+            .cachedIn(viewModelScope)
+        currentImagesResult = newResult
+        return newResult
     }
 }

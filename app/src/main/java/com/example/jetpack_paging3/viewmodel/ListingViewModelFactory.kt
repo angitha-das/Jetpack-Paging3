@@ -19,6 +19,10 @@ class ListingViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return ListingViewModel(repository) as T
+        if (modelClass.isAssignableFrom(ListingViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return ListingViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -1,47 +1,54 @@
 package com.example.jetpack_paging3.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.example.jetpack_paging3.databinding.FragmentListingBinding
-import com.example.jetpack_paging3.model.Hit
 import com.example.jetpack_paging3.util.InjectorUtils
 import com.example.jetpack_paging3.viewmodel.ListingViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ListingFragment : Fragment() {
 
+    private lateinit var adapter: ListingAdapter
     private lateinit var binding: FragmentListingBinding
+
+    private var job: Job? = null
 
     private val viewModel: ListingViewModel by viewModels {
         InjectorUtils.provideListingViewModelFactory(this)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentListingBinding.inflate(inflater, container, false)
-        val adapter = ListingAdapter()
+        adapter = ListingAdapter()
         binding.repoList.adapter = adapter
 
-        subscribeUi(adapter)
+        subscribeUi()
         return binding.root
     }
 
-    private fun subscribeUi(adapter: ListingAdapter) {
-        viewModel.getAllPublicRepositories().observe(viewLifecycleOwner, Observer {
-            it?.let { res ->
-                if (res.isSuccess()) {
-                    res.data?.let { repos ->  adapter.supplyData(repos as ArrayList<Hit>) }
-                }
-//                processStatus(res)
+    @ExperimentalCoroutinesApi
+    private fun subscribeUi() {
+        // Make sure we cancel the previous job before creating a new one
+        job?.cancel()
+        job = lifecycleScope.launch {
+            viewModel.getImages().collectLatest {
+                adapter.submitData(it)
             }
-        })
+        }
     }
 
 }

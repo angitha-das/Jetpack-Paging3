@@ -10,7 +10,7 @@ object InjectorUtils {
      * Creates an instance of [PixabayRepository]
      */
     private fun providePixabayRepository(): PixabayRepository {
-        return PixabayRepository(ApiClient.create())
+        return PixabayRepository(ApiClient.getInstance())
     }
 
     fun provideListingViewModelFactory(

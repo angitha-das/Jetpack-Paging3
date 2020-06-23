@@ -51,15 +51,13 @@
                 tools:text="android-architecture"
                 android:text="@{dataHit.user}"/>
 
-            <TextView
-                android:id="@+id/tagsTV"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tagCG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
                 android:maxLines="1"
-                android:textSize="@dimen/tag_text_size"
-                tools:text="#flowers"
-                android:text="@{dataHit.tags}"/>
+                app:inflateData="@{dataHit.tags}"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
