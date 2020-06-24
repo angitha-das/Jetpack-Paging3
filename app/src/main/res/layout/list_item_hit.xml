@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:paddingTop="@dimen/row_item_margin_vertical"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
         android:paddingHorizontal="@dimen/row_item_margin_horizontal"
         android:onClick="@{clickListener}">
 

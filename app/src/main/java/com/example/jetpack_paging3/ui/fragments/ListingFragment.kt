@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.jetpack_paging3.databinding.FragmentListingBinding
+import com.example.jetpack_paging3.ui.adapters.ListingAdapter
+import com.example.jetpack_paging3.ui.adapters.ListingLoadStateAdapter
 import com.example.jetpack_paging3.util.InjectorUtils
 import com.example.jetpack_paging3.viewmodel.ListingViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,10 +37,24 @@ class ListingFragment : Fragment() {
     ): View? {
         binding = FragmentListingBinding.inflate(inflater, container, false)
         adapter = ListingAdapter()
-        binding.repoList.adapter = adapter
+
+        // add dividers between RecyclerView's row items
+        val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        binding.repoList.addItemDecoration(decoration)
+
+        initAdapter()
 
         subscribeUi()
         return binding.root
+    }
+
+    private fun initAdapter() {
+        binding.repoList.adapter = adapter
+
+        binding.repoList.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ListingLoadStateAdapter { adapter.retry() },
+            footer = ListingLoadStateAdapter { adapter.retry() }
+        )
     }
 
     @ExperimentalCoroutinesApi

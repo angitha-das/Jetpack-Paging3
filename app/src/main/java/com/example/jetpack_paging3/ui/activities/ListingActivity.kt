@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

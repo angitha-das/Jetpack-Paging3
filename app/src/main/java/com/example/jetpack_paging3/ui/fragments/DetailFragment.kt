@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

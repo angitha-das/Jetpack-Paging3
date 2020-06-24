@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.adapters
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -22,7 +22,9 @@ class ListingAdapter: PagingDataAdapter<Hit, RecyclerView.ViewHolder>(REPO_COMPA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ListingViewHolder.create(parent)
+        return ListingViewHolder.create(
+            parent
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

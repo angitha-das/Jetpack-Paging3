@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.adapters
 
 import android.graphics.Color
 import android.widget.ImageView

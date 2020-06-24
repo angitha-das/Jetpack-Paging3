@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listingFragment"
-        android:name="com.example.jetpack_paging3.ui.ListingFragment"
+        android:name="com.example.jetpack_paging3.ui.fragments.ListingFragment"
         android:label="fragment_repo_listing"
         tools:layout="@layout/fragment_listing">
         <action
@@ -21,6 +21,6 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.jetpack_paging3.ui.DetailFragment"
+        android:name="com.example.jetpack_paging3.ui.fragments.DetailFragment"
         android:label="RepoDetailFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.jetpack_paging3.ui
+package com.example.jetpack_paging3.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpack_paging3.R
 import com.example.jetpack_paging3.databinding.ListItemHitBinding
 import com.example.jetpack_paging3.model.Hit
+import com.example.jetpack_paging3.ui.fragments.ListingFragmentDirections
 
 /**
  * View Holder for a [Hit] RecyclerView list item.
@@ -42,8 +43,10 @@ class ListingViewHolder(private val binding: ListItemHitBinding) : RecyclerView.
     }
 
     private fun navigateToDetail(hitId: Int, view: View) {
-        val direction = ListingFragmentDirections
-            .actionListingFragmentToDetailFragment(hitId)
+        val direction =
+            ListingFragmentDirections.actionListingFragmentToDetailFragment(
+                hitId
+            )
         view.findNavController().navigate(direction)
     }
 }
