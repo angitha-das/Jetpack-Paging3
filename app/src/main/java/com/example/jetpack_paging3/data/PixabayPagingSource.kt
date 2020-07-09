@@ -7,6 +7,7 @@ import com.example.jetpack_paging3.util.API_KEY
 import com.example.jetpack_paging3.util.IMAGE_TYPE
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.Exception
 
 class PixabayPagingSource(private val apiClient: ApiClient): PagingSource<Int, Hit>()  {
 
@@ -25,9 +26,15 @@ class PixabayPagingSource(private val apiClient: ApiClient): PagingSource<Int, H
                 nextKey = if (hits.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
-            LoadResult.Error(exception)
+                val exe = Exception("Something went wrong.")
+                LoadResult.Error(exe)
         } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+            if(exception.code() == 400){
+                val exe = Exception("Bad Request")
+                LoadResult.Error(exe)
+            }else {
+                LoadResult.Error(exception)
+            }
         }
     }
 }
