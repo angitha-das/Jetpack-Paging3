@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.DetailFragment">
+    <data>
+        <variable
+            name="dataHit"
+            type="com.example.jetpack_paging3.model.Hit" />
+    </data>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:text="Detail" />
+        android:background="@android:color/black"
+        tools:context=".ui.fragments.DetailFragment">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/photoIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            app:imageFromUrl="@{dataHit.largeImageURL}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+    </FrameLayout>
 </layout>

@@ -30,7 +30,7 @@ class ListingViewHolder(private val binding: ListItemHitBinding) : RecyclerView.
     init {
         binding.setClickListener { view ->
             binding.dataHit?.let { hit ->
-                navigateToDetail(hit.id, view)
+                navigateToDetail(hit, view)
             }
         }
     }
@@ -42,10 +42,10 @@ class ListingViewHolder(private val binding: ListItemHitBinding) : RecyclerView.
         }
     }
 
-    private fun navigateToDetail(hitId: Int, view: View) {
+    private fun navigateToDetail(hit: Hit, view: View) {
         val direction =
             ListingFragmentDirections.actionListingFragmentToDetailFragment(
-                hitId
+                hit
             )
         view.findNavController().navigate(direction)
     }

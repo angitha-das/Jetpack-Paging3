@@ -12,15 +12,15 @@
         tools:layout="@layout/fragment_listing">
         <action
             android:id="@+id/action_listingFragment_to_detailFragment"
-            app:destination="@id/detailFragment">
-            <argument
-                android:name="hitId"
-                app:argType="integer" />
-        </action>
+            app:destination="@id/detailFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.jetpack_paging3.ui.fragments.DetailFragment"
-        android:label="RepoDetailFragment" />
+        android:label="RepoDetailFragment" >
+        <argument
+            android:name="hit"
+            app:argType="com.example.jetpack_paging3.model.Hit" />
+    </fragment>
 </navigation>

@@ -1,12 +1,14 @@
 package com.example.jetpack_paging3.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PixabayResponse(
     @SerializedName("total") val total: Int = 0,
     @SerializedName("totalHits") val totalHits: Int = 0,
     @SerializedName("hits") val hits: List<Hit> = emptyList()
 )
+
 
 data class Hit(
     @field:SerializedName("id") val id: Int,
@@ -30,5 +32,5 @@ data class Hit(
     @field:SerializedName("user_id") val userId: Int,
     @field:SerializedName("user") val user: String,
     @field:SerializedName("userImageURL") val userImageURL: String?
-)
+):Serializable
 
