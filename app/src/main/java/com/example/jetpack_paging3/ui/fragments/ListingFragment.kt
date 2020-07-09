@@ -51,8 +51,7 @@ class ListingFragment : Fragment() {
     private fun initAdapter() {
         binding.repoList.adapter = adapter
 
-        binding.repoList.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = ListingLoadStateAdapter { adapter.retry() },
+        binding.repoList.adapter = adapter.withLoadStateFooter(
             footer = ListingLoadStateAdapter { adapter.retry() }
         )
     }

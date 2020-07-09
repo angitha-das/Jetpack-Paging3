@@ -13,9 +13,18 @@ class PixabayRepository(private val apiClient: ApiClient)  {
         private const val PAGE_SIZE = 20
     }
 
+    /*
     fun getImagesResultStream(): Flow<PagingData<Hit>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
+            pagingSourceFactory = { PixabayPagingSource(apiClient) }
+        ).flow
+    }
+    */
+
+    fun getImagesResultStream(): Flow<PagingData<Hit>> {
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE,prefetchDistance=1),
             pagingSourceFactory = { PixabayPagingSource(apiClient) }
         ).flow
     }
