@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.jetpack_paging3.R
 import com.example.jetpack_paging3.databinding.FragmentListingBinding
 import com.example.jetpack_paging3.ui.adapters.ListingAdapter
 import com.example.jetpack_paging3.ui.adapters.ListingLoadStateAdapter
@@ -43,14 +44,12 @@ class ListingFragment : Fragment() {
         binding.repoList.addItemDecoration(decoration)
 
         initAdapter()
-
         subscribeUi()
         return binding.root
     }
 
     private fun initAdapter() {
         binding.repoList.adapter = adapter
-
         binding.repoList.adapter = adapter.withLoadStateFooter(
             footer = ListingLoadStateAdapter { adapter.retry() }
         )
@@ -63,6 +62,11 @@ class ListingFragment : Fragment() {
         job = lifecycleScope.launch {
             viewModel.getImages().collectLatest {
                 adapter.submitData(it)
+                binding.apply {
+                    isLoading = false
+                    message = resources.getString(R.string.no_results)
+                    showRetry = false
+                }
             }
         }
     }

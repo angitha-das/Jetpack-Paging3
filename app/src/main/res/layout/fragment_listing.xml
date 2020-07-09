@@ -10,6 +10,15 @@
         <variable
             name="viewModel"
             type="com.example.jetpack_paging3.viewmodel.ListingViewModel"/>
+        <variable
+            name="isLoading"
+            type="boolean" />
+        <variable
+            name="message"
+            type="String" />
+        <variable
+            name="showRetry"
+            type="boolean" />
     </data>
 
     <FrameLayout
@@ -32,17 +41,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="6"
-                tools:listitem="@layout/list_item_hit" />
+                tools:listitem="@layout/list_item_hit"
+                android:visibility="visible"/>
 
-            <TextView
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_results"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/messageTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:text="@string/no_results"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/no_results" />
+
+            <Button
+                android:id="@+id/retryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/retry"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/messageTV"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

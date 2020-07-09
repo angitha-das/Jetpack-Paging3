@@ -1,14 +1,11 @@
 package com.example.jetpack_paging3.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.jetpack_paging3.data.PixabayRepository
 import com.example.jetpack_paging3.model.Hit
-import com.example.jetpack_paging3.model.Resource
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 
 /**

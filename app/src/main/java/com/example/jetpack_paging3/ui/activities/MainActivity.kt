@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jetpack_paging3.R
 import androidx.databinding.DataBindingUtil.setContentView
-import com.example.jetpack_paging3.databinding.ActivityListingBinding
+import com.example.jetpack_paging3.databinding.ActivityMainBinding
 
-class ListingActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView<ActivityListingBinding>(this, R.layout.activity_listing)
+        setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
 }
