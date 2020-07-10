@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.jetpack_paging3.R
 import com.example.jetpack_paging3.databinding.FragmentListingBinding
@@ -62,10 +63,27 @@ class ListingFragment : Fragment() {
         job = lifecycleScope.launch {
             viewModel.getImages().collectLatest {
                 adapter.submitData(it)
+            }
+        }
+        adapter.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading){
+                binding.apply {
+                    isLoading = true
+                }
+            } else {
                 binding.apply {
                     isLoading = false
-                    message = resources.getString(R.string.no_results)
-                    showRetry = false
+                }
+                val errorState = when {
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.prepend is LoadState.Error ->  loadState.prepend as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                    else -> null
+                }
+                errorState?.let {
+                    binding.apply {
+                        message = it.error.toString()
+                    }
                 }
             }
         }

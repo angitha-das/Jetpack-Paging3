@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener"/>
@@ -12,13 +13,10 @@
             type="com.example.jetpack_paging3.viewmodel.ListingViewModel"/>
         <variable
             name="isLoading"
-            type="boolean" />
+            type="java.lang.Boolean" />
         <variable
             name="message"
             type="String" />
-        <variable
-            name="showRetry"
-            type="boolean" />
     </data>
 
     <FrameLayout
@@ -54,30 +52,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone"/>
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE,default = gone}"/>
 
             <TextView
                 android:id="@+id/messageTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="@string/no_results"
+                android:text="@{message}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/no_results" />
-
-            <Button
-                android:id="@+id/retryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/retry"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/messageTV"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
