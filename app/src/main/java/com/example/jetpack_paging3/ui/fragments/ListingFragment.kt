@@ -66,17 +66,22 @@ class ListingFragment : Fragment() {
             }
         }
         adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading){
+            if (loadState.refresh is LoadState.Loading){ //Refresh -API call from start
                 binding.apply {
                     isLoading = true
                 }
-            } else {
+            }else if(loadState.append is LoadState.Loading || loadState.prepend is LoadState.Loading ){
+                // Pagination - append: scrolled up, prepend: scroll down
+                binding.apply {
+                    isLoading = false
+                }
+            }else {
                 binding.apply {
                     isLoading = false
                 }
                 val errorState = when {
-                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                    loadState.prepend is LoadState.Error ->  loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> null
+                    loadState.prepend is LoadState.Error ->  null
                     loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
                     else -> null
                 }
