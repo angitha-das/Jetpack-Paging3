@@ -1,5 +1,6 @@
 package com.example.jetpack_paging3.viewmodel
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData

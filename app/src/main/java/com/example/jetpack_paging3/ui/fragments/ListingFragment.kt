@@ -15,11 +15,12 @@ import com.example.jetpack_paging3.ui.adapters.ListingAdapter
 import com.example.jetpack_paging3.ui.adapters.ListingLoadStateAdapter
 import com.example.jetpack_paging3.util.InjectorUtils
 import com.example.jetpack_paging3.viewmodel.ListingViewModel
+import kotlinx.android.synthetic.main.fragment_listing.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
+@ExperimentalCoroutinesApi
 class ListingFragment : Fragment() {
 
     private lateinit var adapter: ListingAdapter
@@ -27,11 +28,10 @@ class ListingFragment : Fragment() {
 
     private var job: Job? = null
 
-    private val viewModel: ListingViewModel by viewModels {
+    private val listingViewModel: ListingViewModel by viewModels {
         InjectorUtils.provideListingViewModelFactory(this)
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,10 +43,15 @@ class ListingFragment : Fragment() {
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.repoList.addItemDecoration(decoration)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         subscribeUi()
-        return binding.root
+        setRequiredListeners()
     }
 
     private fun initAdapter() {
@@ -56,43 +61,57 @@ class ListingFragment : Fragment() {
         )
     }
 
-    @ExperimentalCoroutinesApi
     private fun subscribeUi() {
         // Make sure we cancel the previous job before creating a new one
         job?.cancel()
         job = lifecycleScope.launch {
-            viewModel.getImages().collectLatest {
+            listingViewModel.getImages().collectLatest {
+                swipeToRefresh.isRefreshing = false
                 adapter.submitData(it)
+                binding.apply {
+                    isError = false
+                }
             }
         }
+    }
+
+    private fun setRequiredListeners() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            swipeToRefresh.isRefreshing = true
+            adapter.refresh()
+            adapter.notifyDataSetChanged()
+        }
+
         adapter.addLoadStateListener { loadState ->
-            if (loadState.refresh is LoadState.Loading){ //Refresh -API call from start
-                binding.apply {
-                    isLoading = true
-                }
-            }else if(loadState.append is LoadState.Loading || loadState.prepend is LoadState.Loading ){
-                // Pagination - append: scrolled up, prepend: scroll down
-                binding.apply {
-                    isLoading = false
-                }
-            }else {
-                binding.apply {
-                    isLoading = false
-                }
+            binding.apply {
+                isLoading = loadState.refresh is LoadState.Loading && !swipeToRefresh.isRefreshing
+            }
+            if (loadState.refresh !is LoadState.Loading || loadState.append !is LoadState.Loading || loadState.prepend !is LoadState.Loading) {
+                swipeToRefresh.isRefreshing = false
                 val errorState = when {
                     loadState.append is LoadState.Error -> null
-                    loadState.prepend is LoadState.Error ->  null
+                    loadState.prepend is LoadState.Error -> null
                     loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
                     else -> null
                 }
-                errorState?.let {
+                if(errorState != null){
                     binding.apply {
-                        message = it.error.toString()
+                        message = errorState.error.toString()
+                        isError = true
+                    }
+                } else{
+                    binding.apply {
+                        isError = false
                     }
                 }
             }
         }
     }
+    /*
+        loadState.refresh: Call API from start
+        loadState.append: scrolled up,
+        loadState.prepend: scroll down
+        */
 
 }
 
