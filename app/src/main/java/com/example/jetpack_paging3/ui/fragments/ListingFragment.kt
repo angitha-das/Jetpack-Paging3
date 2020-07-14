@@ -79,7 +79,6 @@ class ListingFragment : Fragment() {
         binding.swipeToRefresh.setOnRefreshListener {
             swipeToRefresh.isRefreshing = true
             adapter.refresh()
-            adapter.notifyDataSetChanged()
         }
 
         adapter.addLoadStateListener { loadState ->
