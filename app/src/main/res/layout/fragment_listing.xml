@@ -54,8 +54,7 @@
                 android:scrollbars="vertical"
                 app:layoutManager="LinearLayoutManager"
                 tools:itemCount="6"
-                tools:listitem="@layout/list_item_hit"
-                android:visibility="visible"/>
+                tools:listitem="@layout/list_item_hit" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

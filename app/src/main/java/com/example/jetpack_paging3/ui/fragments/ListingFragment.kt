@@ -94,7 +94,7 @@ class ListingFragment : Fragment() {
                     else -> null
                 }
                 if (errorState != null) {
-                    showErrorSnackBar(rootCL, errorState.error.toString())
+                    showErrorSnackBar(rootCL, "Something went wrong. Please try again")
                 }
             }
         }
@@ -102,10 +102,10 @@ class ListingFragment : Fragment() {
 
     private fun showErrorSnackBar(view: View, message: String) {
         val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
-        snackBar.setAction("CLOSE") {
-            snackBar.dismiss();
-        }
-            .setActionTextColor(Color.WHITE)
+        snackBar.setAction("RETRY") {
+            snackBar.dismiss()
+            adapter.refresh()
+        }.setActionTextColor(Color.WHITE)
         snackBar.show()
     }
 
