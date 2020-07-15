@@ -1,5 +1,6 @@
 package com.example.jetpack_paging3.ui.adapters
 
+import android.graphics.Color
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -28,7 +29,8 @@ fun inflateData(
     tags?.forEach {
         val tagChip = Chip(layout.context)
         tagChip.text = it
-
+        tagChip.isEnabled = false
+        tagChip.setTextColor(Color.BLACK)
         tagChip.setChipCornerRadiusResource(R.dimen.chip_corner_radius)
         layout.addView(tagChip)
     }
