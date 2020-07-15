@@ -1,5 +1,6 @@
 package com.example.jetpack_paging3.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +16,14 @@ import com.example.jetpack_paging3.ui.adapters.ListingAdapter
 import com.example.jetpack_paging3.ui.adapters.ListingLoadStateAdapter
 import com.example.jetpack_paging3.util.InjectorUtils
 import com.example.jetpack_paging3.viewmodel.ListingViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_listing.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+
 @ExperimentalCoroutinesApi
 class ListingFragment : Fragment() {
 
@@ -68,9 +72,6 @@ class ListingFragment : Fragment() {
             listingViewModel.getImages().collectLatest {
                 swipeToRefresh.isRefreshing = false
                 adapter.submitData(it)
-                binding.apply {
-                    isError = false
-                }
             }
         }
     }
@@ -88,29 +89,26 @@ class ListingFragment : Fragment() {
             if (loadState.refresh !is LoadState.Loading || loadState.append !is LoadState.Loading || loadState.prepend !is LoadState.Loading) {
                 swipeToRefresh.isRefreshing = false
                 val errorState = when {
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
                     loadState.append is LoadState.Error -> null
                     loadState.prepend is LoadState.Error -> null
-                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
                     else -> null
                 }
-                if(errorState != null){
-                    binding.apply {
-                        message = errorState.error.toString()
-                        isError = true
-                    }
-                } else{
-                    binding.apply {
-                        isError = false
-                    }
+                if (errorState != null) {
+                    showErrorSnackBar(rootCL, errorState.error.toString())
                 }
             }
         }
     }
-    /*
-        loadState.refresh: Call API from start
-        loadState.append: scrolled up,
-        loadState.prepend: scroll down
-        */
+
+    private fun showErrorSnackBar(view: View, message: String) {
+        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction("CLOSE") {
+            snackBar.dismiss();
+        }
+            .setActionTextColor(Color.WHITE)
+        snackBar.show()
+    }
 
 }
 

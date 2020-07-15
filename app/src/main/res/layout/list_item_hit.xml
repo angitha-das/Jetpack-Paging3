@@ -31,6 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@tools:sample/avatars"
+            android:background="@android:color/white"
             app:imageFromUrl="@{dataHit.largeImageURL}"
             android:scaleType="centerCrop"
             android:contentDescription="@null"/>
