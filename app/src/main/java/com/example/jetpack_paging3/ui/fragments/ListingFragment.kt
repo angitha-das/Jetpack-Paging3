@@ -94,14 +94,14 @@ class ListingFragment : Fragment() {
                     else -> null
                 }
                 if (errorState != null) {
-                    showErrorSnackBar(rootCL, "Something went wrong. Please try again")
+                    showErrorSnackBar(rootCL)
                 }
             }
         }
     }
 
-    private fun showErrorSnackBar(view: View, message: String) {
-        val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+    private fun showErrorSnackBar(view: View) {
+        val snackBar = Snackbar.make(view, "Something went wrong. Please try again", Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("RETRY") {
             snackBar.dismiss()
             adapter.refresh()
