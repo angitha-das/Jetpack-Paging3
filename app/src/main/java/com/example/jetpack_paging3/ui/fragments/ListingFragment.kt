@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.jetpack_paging3.R
 import com.example.jetpack_paging3.databinding.FragmentListingBinding
 import com.example.jetpack_paging3.ui.adapters.ListingAdapter
 import com.example.jetpack_paging3.ui.adapters.ListingLoadStateAdapter
