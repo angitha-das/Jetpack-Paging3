@@ -5,15 +5,12 @@ import com.example.jetpack_paging3.api.ApiClient
 import com.example.jetpack_paging3.model.Hit
 import com.example.jetpack_paging3.util.API_KEY
 import com.example.jetpack_paging3.util.IMAGE_TYPE
+import com.example.jetpack_paging3.util.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 
 class PixabayPagingSource(private val apiClient: ApiClient): PagingSource<Int, Hit>()  {
-
-    companion object {
-        private const val STARTING_PAGE_INDEX = 1
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hit> {
         val position = params.key ?: STARTING_PAGE_INDEX
@@ -23,7 +20,7 @@ class PixabayPagingSource(private val apiClient: ApiClient): PagingSource<Int, H
             LoadResult.Page(
                 data = hits,
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = if (hits.isEmpty()) null else position + 1
+                nextKey = if (hits.isEmpty() || (position*params.loadSize >= response.totalHits)) null else position + 1
             )
         } catch (exception: IOException) {
                 val exe = Exception("Something went wrong.")
