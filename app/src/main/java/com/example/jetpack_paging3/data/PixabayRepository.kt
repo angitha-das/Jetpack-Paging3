@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 class PixabayRepository(private val apiClient: ApiClient)  {
 
     companion object {
-        private const val PAGE_SIZE = 200
+        private const val PAGE_SIZE = 20
     }
 
     /*
